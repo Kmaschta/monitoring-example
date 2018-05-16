@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+    prometheus:
+        image: prom/prometheus
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+            - "9090:9090"
+
+    app:
+        image: node
+        volumes:
+            - ./app:/app
+        ports:
+            - "4000:4000"
+        command: node /app/index.js
+
+    grafana:
+        image: grafana/grafana
+        ports:
+            - "3000:3000"
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=root
